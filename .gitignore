@@ -24,3 +24,5 @@ Thumbs.db
 # Результаты сборки (если есть)
 dist/
 build/
+
+scripts/

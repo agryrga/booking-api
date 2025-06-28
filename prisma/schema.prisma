@@ -13,7 +13,7 @@ model User {
   email    String    @unique
   password String
   role     Role      @default(USER)
-  bookings Booking[] // обратное отношение
+  bookings Booking[]
 }
 
 enum Role {
@@ -24,8 +24,8 @@ enum Role {
 model Booking {
   id          Int       @id @default(autoincrement())
   start       DateTime
+  end         DateTime
   description String?
   user        User      @relation(fields: [userId], references: [id])
   userId      Int
 }
-
