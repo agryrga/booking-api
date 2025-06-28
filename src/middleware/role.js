@@ -4,7 +4,7 @@
  * @param {string[]} allowedRoles - Список разрешённых ролей, например ['ADMIN']
  * @returns {Function} Express middleware
  */
-export function authorizeRoles(allowedRoles = []) {
+export function checkRoles(allowedRoles = []) {
   return (req, res, next) => {
     const userRole = req.user?.role
 

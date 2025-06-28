@@ -1,4 +1,4 @@
-import { prisma } from '../prisma.js'
+import { prisma } from '../../prisma.js'
 
 /**
  * Проверяет, свободен ли слот для бронирования.
@@ -23,14 +23,10 @@ export async function isTimeSlotAvailable(
       NOT: excludeBookingId ? { id: excludeBookingId } : undefined,
       AND: [
         {
-          start: {
-            lt: end,
-          },
+          start: { lt: end },
         },
         {
-          end: {
-            gt: start,
-          },
+          end: { gt: start },
         },
       ],
     },

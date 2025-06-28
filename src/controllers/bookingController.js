@@ -1,23 +1,19 @@
 import { prisma } from '../prisma.js'
-import { isTimeSlotAvailable } from '../utils/booking.js'
+import {
+  isTimeSlotAvailable,
+  validateBookingDates,
+} from '../utils/booking/index.js'
 
 export const createBooking = async (req, res) => {
   const { start, end, description } = req.body
 
-  if (!start || !end) {
-    return res
-      .status(400)
-      .json({ error: 'Дата и время начала и окончания обязательны' })
+  const validation = validateBookingDates(start, end)
+  if (!validation.valid) {
+    return res.status(400).json({ error: validation.message })
   }
 
   const bookingStart = new Date(start)
   const bookingEnd = new Date(end)
-
-  if (bookingEnd <= bookingStart) {
-    return res
-      .status(400)
-      .json({ error: 'Время окончания должно быть позже времени начала' })
-  }
 
   try {
     const available = await isTimeSlotAvailable(
@@ -105,20 +101,13 @@ export const updateBookingById = async (req, res) => {
   const bookingId = Number(req.params.id)
   const { start, end, description } = req.body
 
-  if (!start || !end) {
-    return res
-      .status(400)
-      .json({ error: 'Дата и время начала и окончания обязательны' })
+  const validation = validateBookingDates(start, end)
+  if (!validation.valid) {
+    return res.status(400).json({ error: validation.message })
   }
 
   const bookingStart = new Date(start)
   const bookingEnd = new Date(end)
-
-  if (bookingEnd <= bookingStart) {
-    return res
-      .status(400)
-      .json({ error: 'Время окончания должно быть позже времени начала' })
-  }
 
   try {
     const existingBooking = await prisma.booking.findUnique({

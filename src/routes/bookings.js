@@ -8,7 +8,7 @@ import {
   getAllBookingsForAdmin,
 } from '../controllers/bookingController.js'
 import { authenticateToken } from '../middleware/auth.js'
-import { authorizeRoles } from '../middleware/role.js'
+import { checkRoles } from '../middleware/role.js'
 
 const router = express.Router()
 
@@ -20,7 +20,7 @@ router.put('/:id', authenticateToken, updateBookingById)
 router.get(
   '/all',
   authenticateToken,
-  authorizeRoles(['ADMIN']),
+  checkRoles(['ADMIN']),
   getAllBookingsForAdmin
 )
 
