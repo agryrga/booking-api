@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import authRoutes from './routes/auth.js'
+import bookingRoutes from './routes/booking.js'
 
 dotenv.config()
 
@@ -15,5 +16,6 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/auth', authRoutes)
+app.use('/api/booking', bookingRoutes)
 
 export default app
